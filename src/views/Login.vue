@@ -116,13 +116,19 @@ export default {
         const formData = new FormData();
         formData.append('email', this.emailAddress)
         formData.append('password', this.password)
-        console.log(formData.get('email'))
+        // console.log(formData.get('email'))
 
         this.loginLoadingState = true
         axios.post('https://api.catena.id/v1/auth/login', formData, {headers: {'content-type': 'application/x-www-form-urlencoded'}})
         .then((response) => {
           this.loginLoadingState = false
-          console.log(response.data.jwt_token)
+          // console.log(response.data.jwt_token)
+          // console.log(response.data.data.user_uid)
+          localStorage.setItem('user_uid', response.data.data.user_uid)
+          localStorage.setItem('email', response.data.data.email)
+          localStorage.setItem('credential_type', response.data.data.credential_type)
+
+          this.$router.push('/')
         })
         .catch((err) => {
           this.loginLoadingState = false
