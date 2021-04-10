@@ -1,5 +1,5 @@
 <template>
-  <div class="login">
+  <div class="register">
     <section class="section">
       <div class="container">
         <div class="columns is-vcentered is-centered">
@@ -7,7 +7,7 @@
             <p
               class="is-size-4 mt-6 mb-5 pb-4 has-text-centered has-text-weight-light"
             >
-              Login to <span class="has-text-weight-medium">Catena</span>
+              Sign up to <span class="has-text-weight-medium">Catena</span>
             </p>
             <div id="checkEmailPassword" v-show="checkEmailPassword">
               <div class="notification p-3 mx-5 mb-3 is-danger is-light">
@@ -50,22 +50,29 @@
                     <p
                       class="help is-danger" v-show="emptyPassword"
                     >
-                      This field is required
+                      {{ passwordErrorMessage }}
                     </p>
                   </div>
                 </div>
-                <p class="has-text-right">
-                  <a
-                    href=""
-                    class="is-size-7"
-                    style="
-                      color: #3273dc;
-                      cursor: pointer;
-                      text-decoration: none;
-                    "
-                    >Forgot password?</a
-                  >
-                </p>
+                <label class="label has-text-weight-light">Confirm Password</label>
+                <div class="field">
+                  <div class="control">
+                    <input
+                      class="input"
+                      type="password"
+                      name="password"
+                      v-model="confirmPassword"
+                      @input="confirmPasswordInputEventHandler"
+                     :class="{'is-danger': errorConfirmPassword}"
+                      @keyup.enter="loginClick"
+                    />
+                    <p
+                      class="help is-danger" v-show="errorConfirmPassword"
+                    >
+                      {{ confirmPasswordErrorMessage }}
+                    </p>
+                  </div>
+                </div>
               </form>
                 <div class="field mt-5 pt-3 mb-2">
                   <div class="control">
@@ -73,16 +80,16 @@
                       class="button is-link is-fullwidth"
                       :class="{'is-loading': loginLoadingState}"
                       @click="loginClick"
-                    >Login</button>
+                    >Sign up</button>
                   </div>
                 </div>
             </div>
             <div class="notification is-white pt-0 px-5" style="border: 2px">
               <a
                 class="button is-fullwidth is-medium"
-                href="/signup"
+                href="/login"
                 style="color: #3273dc; cursor: pointer; text-decoration: none"
-                ><span class="is-size-6">Create an account</span></a
+                ><span class="is-size-6">Already have an account? Log in</span></a
               >
             </div>
           </div>
@@ -103,15 +110,24 @@ export default {
       emptyEmail: false,
       checkEmailPassword: false,
       loginLoadingState: false,
+      errorConfirmPassword: false,
 
       emailAddress: '',
       password: '',
+      confirmPassword: '',
+      confirmPasswordErrorMessage: '',
+      passwordErrorMessage: ''
+
     }
   },
   methods: {
     loginClick () {
       if (this.emailAddress === '' || this.password === '') {
         this.checkEmailPassword = true
+      } else if (this.password !== this.confirmPassword) {
+        this.errorConfirmPassword = true
+
+        this.confirmPasswordErrorMessage = 'Password must be the same'
       } else {
         const formData = new FormData();
         formData.append('email', this.emailAddress)
@@ -119,10 +135,11 @@ export default {
         console.log(formData.get('email'))
 
         this.loginLoadingState = true
-        axios.post('https://api.catena.id/v1/auth/login', formData, {headers: {'content-type': 'application/x-www-form-urlencoded'}})
+        axios.post('https://api.catena.id/v1/auth/register', formData, {headers: {'content-type': 'application/x-www-form-urlencoded'}})
         .then((response) => {
           this.loginLoadingState = false
-          console.log(response.data.jwt_token)
+          // console.log(response.data)
+          window.location = '/signup_completed'
         })
         .catch((err) => {
           this.loginLoadingState = false
@@ -135,8 +152,17 @@ export default {
     passwordInputEventHandler() {
       if (this.password === '') {
         this.emptyPassword = true
+        this.passwordErrorMessage = 'This field is required'
       } else {
         this.emptyPassword = false
+      }
+    }, 
+    confirmPasswordInputEventHandler() {
+      if (this.confirmPassword === '') {
+        this.errorConfirmPassword = true
+        this.confirmPasswordErrorMessage = 'This field is required'
+      } else {
+        this.errorConfirmPassword = false
       }
     }, 
     emailInputEventHandler() {
