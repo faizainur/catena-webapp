@@ -146,7 +146,7 @@ export default {
           localStorage.setItem('email', response.data.data.email)
           localStorage.setItem('credential_type', response.data.data.credential_type)
 
-          // this.$router.push('/')
+          this.$router.push('/')
         })
         .catch((err) => {
           this.loginLoadingState = false
