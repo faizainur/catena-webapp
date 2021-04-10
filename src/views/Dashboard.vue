@@ -26,12 +26,21 @@ export default {
             formData.append('user_uid', userUid)
             formData.append('email', email)
 
-            axios.post('https://api.catena.id/v1/auth/refresh_token', formData, {headers: {'content-type': 'application/x-www-form-urlencoded'}})
-            .then((resposne) => {
-                console.log(response.data)
+            axios.post('https://api.catena.id/v1/auth/refresh_token', formData, {headers: {'content-type': 'application/x-www-form-urlencoded'}, withCredentials: true})
+            // fetch('https://api.catena.id/v1/auth/refresh_token', {
+            //     method: 'POST',
+            //     body: formData,
+            //     cors: 'no-cors'
+            // })
+            .then((response) => {
+            //   return response.json()
+            console.log(response.data)
             })
+            // .then((data) => {
+            //     console.log(data)
+            // })
             .catch((err) => {
-                console.log(err.response.data)
+                console.log(err)
                 // this.$router.push('/login')
             })
         }

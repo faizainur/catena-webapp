@@ -94,7 +94,7 @@
 
 <script>
 import axios from 'axios'
-import FormData from 'form-data'
+// import FormData from 'form-data'
 export default {
   name: 'Home',
   data() {
@@ -119,16 +119,34 @@ export default {
         // console.log(formData.get('email'))
 
         this.loginLoadingState = true
-        axios.post('https://api.catena.id/v1/auth/login', formData, {headers: {'content-type': 'application/x-www-form-urlencoded'}})
+
+        // fetch('https://api.catena.id/v1/auth/login', {
+        //   method: 'POST',
+        //   body: formData,
+        //   cors: 'no-cors',
+        // })
+        // .then((response) => {
+        //   this.loginLoadingState = false
+        //   return response.json()
+        // })
+        // .then((data) => {
+        //   console.log(data)
+        // })
+        // .catch((err) => {
+        //   console.log(err)
+        // })
+
+        axios.post('https://api.catena.id/v1/auth/login', formData, {headers: {'content-type': 'application/x-www-form-urlencoded'}, withCredentials: true})
         .then((response) => {
           this.loginLoadingState = false
-          // console.log(response.data.jwt_token)
-          // console.log(response.data.data.user_uid)
+          console.log(response.data.jwt_token)
+          console.log(response.data.data.user_uid)
+          console.log(response)
           localStorage.setItem('user_uid', response.data.data.user_uid)
           localStorage.setItem('email', response.data.data.email)
           localStorage.setItem('credential_type', response.data.data.credential_type)
 
-          this.$router.push('/')
+          // this.$router.push('/')
         })
         .catch((err) => {
           this.loginLoadingState = false
