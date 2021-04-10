@@ -31,8 +31,8 @@ export default {
                 console.log(response.data)
             })
             .catch((err) => {
-                console.log(err)
-                this.$router.push('/login')
+                console.log(err.response.data)
+                // this.$router.push('/login')
             })
         }
     },
