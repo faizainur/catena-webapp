@@ -26,6 +26,7 @@
                      v-model="emailAddress"
                      @input="emailInputEventHandler"
                      :class="{'is-danger': emptyEmail}"
+                      @keyup.enter="loginClick"
                     />
                     <p
                       class="help is-danger" v-show="emptyEmail"
@@ -44,6 +45,7 @@
                       v-model="password"
                       @input="passwordInputEventHandler"
                      :class="{'is-danger': emptyPassword}"
+                      @keyup.enter="loginClick"
                     />
                     <p
                       class="help is-danger" v-show="emptyPassword"
