@@ -57,7 +57,11 @@ export default {
                 this.refreshToken()
             }
 
-            axios.post('https://api.catena.id/v1/auth/logout',{}, {headers: {'Authorization': authToken}, withCredentials: true})
+            console.log(authToken)
+
+            const formData = new FormData()
+            // axios.post('https://api.catena.id/v1/auth/logout',{}, {headers: {'Authorization': authToken}, withCredentials: true})
+            axios.post('https://api.catena.id/v1/auth/logout', formData, {headers: {'content-type': 'application/x-www-form-urlencoded', 'Authorization': authToken}, withCredentials: true})
             .then((response) => {
                 console.log("Logged out")
                 this.$router.push('/login')
