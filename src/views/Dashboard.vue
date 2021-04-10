@@ -57,13 +57,13 @@ export default {
                 this.refreshToken()
             }
 
-            axios.post('https://api.catena.id/v1/auth/logout', {headers: {'Authorization': authToken}, withCredentials: true})
+            axios.post('https://api.catena.id/v1/auth/logout',{}, {headers: {'Authorization': authToken}, withCredentials: true})
             .then((response) => {
                 console.log("Logged out")
                 this.$router.push('/login')
             })
             .catch((err) => {
-                console.log(err.response.data)
+                console.log(err.response)
             })
         }
     },
