@@ -1,5 +1,30 @@
-import { createApp } from 'vue'
-import App from './App.vue'
-import router from './router'
+import { createApp, h, markRaw } from 'vue'
+import page from 'page'
+import routes from './routes'
+import './assets/index.css'
 
-createApp(App).use(router).mount('#app')
+const DefaultComponent = markRaw({
+    render: () => h('div', 'Loading...')
+})
+const App = {
+    data: () => ({
+        ViewComponent: null
+    }),
+    
+    render() {
+        return h(this.ViewComponent || DefaultComponent)
+    },
+
+    created() {
+        for (let route in routes) {
+            console.log(route)
+            page(route, () => {
+                this.ViewComponent = markRaw(require('./views/' + routes[route] + '.vue').default)
+            })
+        }
+
+        page()
+    },
+}
+
+createApp(App).mount('#app')
