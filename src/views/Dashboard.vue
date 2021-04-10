@@ -41,29 +41,19 @@ export default {
         }, 
         logout() {
             var authToken = 'Bearer ' + this.jwtToken
-
             var decoded = jwt_decode(this.jwtToken)
-
             var date = new Date()
             var timeNowUnix = Math.floor(date.getTime() / 1000)
-
-            // console.log(unixFormat)
-            // console.log(this.jwtToken)
-            // console.log(decoded)
-            // console.log(decoded.exp)
 
             if (timeNowUnix > decoded.exp) {
                 console.log('expired token')
                 this.refreshToken()
             }
 
-            console.log(authToken)
-
-            const formData = new FormData()
-            // axios.post('https://api.catena.id/v1/auth/logout',{}, {headers: {'Authorization': authToken}, withCredentials: true})
-            axios.post('https://api.catena.id/v1/auth/logout', formData, {headers: {'content-type': 'application/x-www-form-urlencoded', 'Authorization': authToken}, withCredentials: true})
+            axios.post('https://api.catena.id/v1/auth/logout', null, {headers: {'content-type': 'application/x-www-form-urlencoded', 'Authorization': authToken}, withCredentials: true})
             .then((response) => {
                 console.log("Logged out")
+                localStorage.clear()
                 this.$router.push('/login')
             })
             .catch((err) => {
