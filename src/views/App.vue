@@ -100,7 +100,7 @@ export default {
 
         if (timeNowUnix > decoded.exp) {
             this.refreshToken()
-            // return
+            return
         }
 
         this.isLoadingLogoutProcess = true
