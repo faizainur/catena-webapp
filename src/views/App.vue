@@ -68,12 +68,13 @@ export default {
       isDashboard: false, // default value
 
       activeMenu: '',
-      isLoadingLogoutProcess: false
+      isLoadingLogoutProcess: false,
+      isCreated: false
 
     }
   },
   created() {
-    if (this.isDashboard) {
+    if (this.isDashboard && !this.isCreated) {
       this.refreshToken()
     }
   },
