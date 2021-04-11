@@ -1,5 +1,5 @@
 <template>
-    <div class="container main-box" v-show="isDashboard">
+    <div class="container main-box" v-if="false">
       <!-- <h1 class="is-size-2">App View</h1> -->
       <div class="columns my-0 mx-0" style="height: 100vh">
         <div class="column is-2 px-5">
@@ -49,7 +49,7 @@
         </div>
       </div>
     </div>
-    <div v-show="!isDashboard">
+    <div v-else>
       <router-view></router-view>
     </div>
 </template>
@@ -74,7 +74,7 @@ export default {
 },
 created() {
     if (this.isDashboard) {
-      // this.refreshToken()
+      this.refreshToken()
     }
   },
   methods: {
@@ -131,6 +131,8 @@ created() {
         if (to.path !== '/login' || to.path !== '/signup' || to.path !== '/signup_completed') {
             this.isDashboard =true  
             this.activeMenu = to.path.substr(1)
+        } else {
+          this.isDashboard = false
         }
         document.title = to.meta.title || 'Catena : Decentralized KYC'
       }
