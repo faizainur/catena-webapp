@@ -73,6 +73,11 @@ export default {
 
     }
   },
+  mounted() {
+    if (this.isDashboard) {
+      this.refreshToken()
+    }
+  },
   methods: {
     refreshToken() {
         var email = localStorage.getItem('email')
@@ -100,7 +105,7 @@ export default {
 
         if (timeNowUnix > decoded.exp) {
             this.refreshToken()
-            return
+            // return
         }
 
         this.isLoadingLogoutProcess = true
