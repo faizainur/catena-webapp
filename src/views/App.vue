@@ -70,9 +70,14 @@ export default {
       activeMenu: '',
       isLoadingLogoutProcess: false
 
-  }
-},
-created() {
+    }
+  },
+  created() {
+    if (this.isDashboard) {
+      this.refreshToken()
+    }
+  },
+  updated() {
     if (this.isDashboard) {
       this.refreshToken()
     }
@@ -120,8 +125,6 @@ created() {
         })
         .catch((err) => {
             console.log(err.response)
-            this.refreshToken()
-            this.logout()
             this.isLoadingLogoutProcess = false
         })
     }
