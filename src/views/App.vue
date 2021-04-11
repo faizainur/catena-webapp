@@ -73,11 +73,6 @@ export default {
 
     }
   },
-  mounted() {
-    if (this.isDashboard) {
-      this.refreshToken()
-    }
-  },
   methods: {
     refreshToken() {
         var email = localStorage.getItem('email')
