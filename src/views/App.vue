@@ -39,7 +39,7 @@
               </nav>
                 <!-- <h1 class="is-size-4 has-text-weight-bold">Right</h1> -->
             </div>
-            <div class="column is-2">
+            <div class="column is-2 has-text-right">
               <button @click="logout" class="button" :class="{'is-loading': isLoadingLogoutProcess}">Logout</button>
             </div>
           </div>
