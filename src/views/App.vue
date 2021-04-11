@@ -73,16 +73,19 @@ export default {
 
     }
   },
-  created() {
-    if (this.isDashboard && !this.isCreated) {
-      this.refreshToken()
-    }
-  },
-  updated() {
-    if (this.isDashboard) {
-      this.refreshToken()
-    }
-  },
+  // created() {
+  //   if (this.isDashboard) {
+  //     if (!this.isCreated) {
+  //     this.refreshToken()
+  //     this.isCreated = true
+  //     }
+  //   }
+  // },
+  // updated() {
+  //   if (this.isDashboard) {
+  //     this.refreshToken()
+  //   }
+  // },
   methods: {
     refreshToken() {
         var email = localStorage.getItem('email')
@@ -105,17 +108,18 @@ export default {
         })
     }, 
     logout() {
+      this.refreshToken()
         var authToken = 'Bearer ' + this.jwtToken
-        var decoded = jwt_decode(this.jwtToken)
-        var date = new Date()
-        var timeNowUnix = Math.floor(date.getTime() / 1000)
+        // var decoded = jwt_decode(this.jwtToken)
+        // var date = new Date()
+        // var timeNowUnix = Math.floor(date.getTime() / 1000)
 
-        this.isLoadingLogoutProcess = true
+        // this.isLoadingLogoutProcess = true
 
-        if (timeNowUnix > decoded.exp) {
-            console.log('expired token')
-            this.refreshToken()
-        }
+        // if (timeNowUnix > decoded.exp) {
+        //     console.log('expired token')
+        //     this.refreshToken()
+        // }
 
         axios.post('https://api.catena.id/v1/auth/logout', null, {headers: {'content-type': 'application/x-www-form-urlencoded', 'Authorization': authToken}, withCredentials: true})
         .then((response) => {
