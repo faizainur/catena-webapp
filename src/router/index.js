@@ -71,7 +71,7 @@ const routes = [
   },
   {
     path: '/signup_completed',
-    name: 'Signup Completed',
+    name: 'SignupCompleted',
     component: SignupCompleted,
     meta: {
       title: 'Signup Completed'

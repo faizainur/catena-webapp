@@ -1,5 +1,5 @@
 <template>
-    <div class="container main-box" v-if="false">
+    <div class="container main-box" v-if="isDashboard">
       <!-- <h1 class="is-size-2">App View</h1> -->
       <div class="columns my-0 mx-0" style="height: 100vh">
         <div class="column is-2 px-5">
@@ -128,7 +128,8 @@ created() {
     $route: {
       immediate: true,
       handler(to, from) {
-        if (to.path !== '/login' || to.path !== '/signup' || to.path !== '/signup_completed') {
+        if (to.path !== '/login' && to.path !== '/signup' && to.path !== '/signup_completed') {
+          console.log('this is dashboard panel')
             this.isDashboard =true  
             this.activeMenu = to.path.substr(1)
         } else {
