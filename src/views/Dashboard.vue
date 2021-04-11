@@ -1,6 +1,5 @@
 <template>
-    <h1 class="is-size-2">Dashboard</h1>
-    <button class="button" @click="logout">Logout</button>
+    <h1 class="is-size-4">Welcome to Catena!</h1>
 </template>
 
 <script>
@@ -16,7 +15,7 @@ export default {
         }
     },
     created() {
-        this.refreshToken()
+        // this.refreshToken()
     },
     methods: {
         refreshToken() {
