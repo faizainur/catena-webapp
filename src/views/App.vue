@@ -120,6 +120,8 @@ created() {
         })
         .catch((err) => {
             console.log(err.response)
+            this.refreshToken()
+            this.logout()
             this.isLoadingLogoutProcess = false
         })
     }
@@ -129,7 +131,6 @@ created() {
       immediate: true,
       handler(to, from) {
         if (to.path !== '/login' && to.path !== '/signup' && to.path !== '/signup_completed') {
-          console.log('this is dashboard panel')
             this.isDashboard =true  
             this.activeMenu = to.path.substr(1)
         } else {
