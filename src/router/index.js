@@ -29,6 +29,15 @@ const routes = [
     component: Login,
     meta: {
       title: 'Login Catena'
+    },
+    beforeEnter: (to, from) => {
+      var email = localStorage.getItem('email')
+      var userUid = localStorage.getItem('user_uid')
+
+      if (email !== null && userUid !==  null) {
+        return '/'
+      }
+      return true
     }
   },
   {
