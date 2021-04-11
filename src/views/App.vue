@@ -72,11 +72,6 @@ export default {
 
     }
   },
-  created() {
-    if (this.isDashboard) {
-      this.refreshToken()
-    }
-  },
   updated() {
     if (this.isDashboard) {
       this.refreshToken()

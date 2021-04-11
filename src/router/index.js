@@ -14,15 +14,12 @@ const routes = [
     meta : {
       title: 'Dashboard'
     },
-    props: {
-      title: 'Hello',
-    },
     beforeEnter: (to, from) => {
       var email = localStorage.getItem('email')
       var userUid = localStorage.getItem('user_uid')
 
       if (email === null || userUid === null) {
-        return '/login'
+          return '/login'
       }
       return true
     }
@@ -67,6 +64,9 @@ const routes = [
     component: Signup,
     meta: {
       title: 'Sign up to Catena'
+    },
+    beforeEnter: (to, from) => {
+      return true
     }
   },
   {
