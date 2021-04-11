@@ -14,6 +14,9 @@ const routes = [
     meta : {
       title: 'Dashboard'
     },
+    props: {
+      title: 'Hello',
+    },
     beforeEnter: (to, from) => {
       var email = localStorage.getItem('email')
       var userUid = localStorage.getItem('user_uid')
