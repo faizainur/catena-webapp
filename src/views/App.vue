@@ -1,15 +1,16 @@
 <template>
-    <div class="container main-box" v-if="isDashboard">
+    <div class="container is-max-widescreen  main-box" v-if="isDashboard">
       <div class="columns my-0 mx-0" style="height: 100vh">
-        <div class="column is-2 px-5">
+        <div class="column is-3 px-5">
           <!-- <h1 class="is-size-4 has-text-weight-bold">Catena</h1> -->
           <h1 class="is-size-4 has-text-weight-bold">Catena</h1>
           <aside class="menu mt-5 px-0 sidebar pr-2">
             <p class="menu-label">General</p>
             <ul class="menu-list">
               <!-- <li><a class="is-active">Dashboard</a></li> -->
-              <li><router-link to="/" :class="{'is-active': activeMenu ===''}">Dashboard</router-link></li>
-              <li><router-link to="/profile" :class="{'is-active': activeMenu === 'profile'}">Profile</router-link></li>
+              <li><router-link to="/" :class="{'is-active': activeMenu ===''}">Home</router-link></li>
+              <li><router-link to="/profile" :class="{'is-active': activeMenu === 'profile'}">Account Profile</router-link></li>
+              <li><router-link to="/demo-ipfs" :class="{'is-active': activeMenu === 'demo-ipfs'}">Demo IPFS</router-link></li>
             </ul>
             <p class="menu-label">Credit</p>
             <ul class="menu-list">
@@ -23,20 +24,20 @@
           </aside>
           <div class="footer-box my-4">
             <!-- <strong>Copyright 2021</strong><br> -->
-            <span class="is-size-6 has-text-weight-bold">By Faiz Ainur Rofiq</span>
+            <!-- <span class="is-size-6 has-text-weight-bold">By Faiz Ainur Rofiq</span> -->
           </div>
           
         </div>
-        <div class="column is-10">
+        <div class="column is-8">
           <!-- <h1>World</h1> -->
           <div class="columns mb-0">
             <div class="column is-10">
-              <nav class="breadcrumb  py-2">
+              <!-- <nav class="breadcrumb  py-2">
                 <ul>
                   <li><router-link to="/" >Dashboard</router-link></li>
                   <li v-show="activeMenu !== ''"><router-link :to="'/' + activeMenu">{{ activeMenu }}</router-link></li>
                 </ul>
-              </nav>
+              </nav> -->
                 <!-- <h1 class="is-size-4 has-text-weight-bold">Right</h1> -->
             </div>
             <div class="column is-2 has-text-right">
@@ -44,6 +45,12 @@
             </div>
           </div>
           <div class="mt-0 pt-0">
+              <!-- <nav class="breadcrumb mb-0 is-small">
+                <ul>
+                  <li><router-link to="/" >Home</router-link></li>
+                  <li v-show="activeMenu !== ''"><router-link :to="'/' + activeMenu">{{ activeMenu }}</router-link></li>
+                </ul>
+              </nav> -->
             <router-view></router-view>
           </div>
         </div>
@@ -164,6 +171,8 @@ html, body {
   border-style: solid;
   height: 90%;
   padding-bottom: 7em;
+  /* background-color: aqua; */
+  /* padding: 1e; */
 }
 
 </style>

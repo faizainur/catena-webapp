@@ -4,10 +4,10 @@
         <div class="modal-content">
          <div class="box">
              <h1 class="is-size-5 has-text-weight-bold">Upload File</h1>
-             <div class="upload-container my-4 p-2" :class="{'center-item': !fileSelected}">
-                 <div class="file">
+             <div class="upload-container my-3 p-2" :class="{'center-item': !fileSelected}">
+                 <div class="file" v-show="!fileSelected">
                     <label class="file-label">
-                        <input class="file-input" type="file" name="resume" @change="onFileSelected">
+                        <input class="file-input" accept="image/*, application/pdf" type="file" name="resume" @change="onFileSelected">
                         <span class="file-cta">
                         <span class="file-icon">
                             <i class="fas fa-upload"></i>
@@ -18,6 +18,7 @@
                         </span>
                     </label>
                 </div>
+                <Item v-show="fileSelected" :file="file" :progressValue="progressValue"/>
              </div>
              <div class="has-text-right">
                 <button class="button is-link" @click="closeModal">Close</button>
@@ -28,22 +29,98 @@
 </template>
 
 <script>
+import Item from './SelectedFileItem'
+import axios from 'axios'
+import FormData from 'form-data'
 export default {
+    components: {
+        Item
+    },
     data() {
         return {
             fileSelected: false,
             isOpened: false,
+
+            file: File,
+            returnObject: null,
+            progressValue: 0
         }
     },
     methods: {
         onFileSelected() {
-            this.fileSelected = true
             console.log('FIle selected')
+
+            var files = event.target.files
+            if (!files.length) {
+               this.fileSelected = false 
+                return;
+            }
+            this.fileSelected = true
+
+            var file = files[0]
+            // this.fileName = file.name
+            console.log(file)
+            this.file = file
+
+            this.uploadFile()
         },
         closeModal() {
             this.fileSelected = false
-            this.$emit('onClose')
-        }
+            this.$emit('onClose', this.fileObj)
+        },
+        refreshToken() {
+            var email = localStorage.getItem('email')
+            var userUid = localStorage.getItem('user_uid')
+
+            console.log( email + userUid)
+
+            const formData = new FormData()
+            formData.append('user_uid', userUid)
+            formData.append('email', email)
+
+            axios.post('https://api.catena.id/v1/auth/refresh_token', formData, {headers: {'content-type': 'application/x-www-form-urlencoded'}, withCredentials: true})
+            .then((response) => {
+                this.jwtToken = response.data.jwt_token
+                console.log(this.jwtToken)
+            })
+            .catch((err) => {
+                console.log(err)
+                this.$router.push('/login')
+            })
+        },
+        uploadFile() {
+            var jwtToken = this.refreshToken()
+            var authToken = 'Bearer ' + jwtToken
+
+            const formData = new FormData()
+            formData.append('file', this.file)
+
+            console.log(formData)
+            console.log('Upload file')
+
+            this.progressValue = null
+            axios.post('https://api.catena.id/v1/ipfs/user/upload', formData, {headers: {'content-type': 'application/form-data', 'Authorization': authToken}, withCredentials: true})
+                .then((response) => {
+                    this.progressValue = 0
+                    this.fileUploadStatus = 'File Uploaded'
+                    this.fileCid = response.data.cid
+
+                    this.fileObj = {
+                        name: this.file.name,
+                        cid: response.data.cid
+                    }
+
+                    console.log(response)
+                    console.log(this.fileObj)
+                })
+                .catch((err) => {
+                    this.progressValue = 0
+                    this.fileUploadStatus = 'Failed'
+                    this.fileName = 'Try to choose a different file'
+                    console.log(err.response)
+                })
+            // console.log(file)
+        },
     },
     props: {
         active: Boolean
@@ -58,7 +135,16 @@ export default {
     border-radius: 8px;
     border-color:  #e0e0e0;
     border-style: solid;
-    min-height: 15em;
+    min-height: 20em;
+}
+
+.upload-title {
+    border-bottom: 1px;
+    border-right: 0px;
+    border-left: 0px;
+    border-top: 0px;
+    border-style: solid;
+    border-color:  #e0e0e0;
 }
 
 .upload-container.center-item {

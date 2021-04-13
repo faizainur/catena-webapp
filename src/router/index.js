@@ -4,6 +4,7 @@ import Signup from '../views/Signup'
 import Dashboard from '../views/Dashboard'
 import SignupCompleted from '../views/SignupCompleted'
 import Profile from '../views/Profile'
+import DemoIPFS from '../views/DemoIPFS'
 import axios from 'axios'
 
 const routes = [
@@ -31,15 +32,15 @@ const routes = [
     meta : {
       title: 'Profile'
     },
-    beforeEnter: (to, from) => {
-      var email = localStorage.getItem('email')
-      var userUid = localStorage.getItem('user_uid')
+    // beforeEnter: (to, from) => {
+    //   var email = localStorage.getItem('email')
+    //   var userUid = localStorage.getItem('user_uid')
 
-      if (email === null || userUid === null) {
-        return '/login'
-      }
-      return true
-    }
+    //   if (email === null || userUid === null) {
+    //     return '/login'
+    //   }
+    //   return true
+    // }
   },
   {
     path: '/login',
@@ -76,7 +77,16 @@ const routes = [
     meta: {
       title: 'Signup Completed'
     }
+  },
+  {
+    path: '/demo-ipfs',
+    name: 'DemoIPFS',
+    component: DemoIPFS,
+    meta: {
+      title: 'Demo IPFS'
+    }
   }
+
 ]
 
 const router = createRouter({
