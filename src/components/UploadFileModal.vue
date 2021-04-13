@@ -43,7 +43,8 @@ export default {
 
             file: File,
             returnObject: null,
-            progressValue: 0
+            progressValue: 0,
+            jwtToken: ''
         }
     },
     methods: {
@@ -69,28 +70,32 @@ export default {
             this.$emit('onClose', this.fileObj)
         },
         refreshToken() {
-            var email = localStorage.getItem('email')
-            var userUid = localStorage.getItem('user_uid')
+            return new Promise((resolve, reject) => {
 
-            console.log( email + userUid)
+                var email = localStorage.getItem('email')
+                var userUid = localStorage.getItem('user_uid')
 
-            const formData = new FormData()
-            formData.append('user_uid', userUid)
-            formData.append('email', email)
+                console.log( email + userUid)
 
-            axios.post('https://api.catena.id/v1/auth/refresh_token', formData, {headers: {'content-type': 'application/x-www-form-urlencoded'}, withCredentials: true})
-            .then((response) => {
-                this.jwtToken = response.data.jwt_token
-                console.log(this.jwtToken)
-            })
-            .catch((err) => {
-                console.log(err)
-                this.$router.push('/login')
+                const formData = new FormData()
+                formData.append('user_uid', userUid)
+                formData.append('email', email)
+
+                axios.post('https://api.catena.id/v1/auth/refresh_token', formData, {headers: {'content-type': 'application/x-www-form-urlencoded'}, withCredentials: true})
+                .then((response) => {
+                    resolve(response.data.jwt_token)
+                })
+                .catch((err) => {
+                    reject(err)
+                })
             })
         },
         uploadFile() {
-            var jwtToken = this.refreshToken()
-            var authToken = 'Bearer ' + jwtToken
+            this.refreshToken()
+                .then((token) => this.jwtToken = token)
+                .catch((error) => this.$router.push('/login'))
+                
+            var authToken = 'Bearer ' + this.jwtToken
 
             const formData = new FormData()
             formData.append('file', this.file)

@@ -37,9 +37,11 @@ export default {
         },
         onCloseModal(e) {
             console.log(e)
-            this.selectedFile = e
-            this.fileNameInput = e.name
-            this.CIDInput = e.cid
+            if (e !== null ) {
+                this.selectedFile = e
+                this.fileNameInput = e.name
+                this.CIDInput = e.cid
+            }
             this.isUploadModalActive = false
         }
     }
