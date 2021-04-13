@@ -1,6 +1,6 @@
 <template>
     <h1 class="is-size-4 has-text-weight-semibold">Dashboard</h1>
-    <div class="file has-name mt-5 is-fullwidth is-lin"
+    <!-- <div class="file has-name mt-5 is-fullwidth is-lin"
          :class="{
              'is-danger': fileUploadStatus === 'Failed',
              'is-link': fileUploadStatus !== 'Failed'
@@ -16,17 +16,23 @@
                     {{ fileName }}
     </span>
         </label>
-    </div>
+    </div> -->
+    <button class="button" @click="showUploadModal">Show modal</button>
+    <upload v-show="uploadModalShow" :active="uploadModalShow" @onClose="closeModal"/>
+   <!-- <HelloWorld msg="Hi"/> -->
 </template>
 
 <script>
 import axios from 'axios'
 import FormData from 'form-data'
 import jwt_decode from "jwt-decode";
-
+import upload from '../components/UploadFileModal'
 export default {
     props: {
         title: String,
+    },
+    components: {
+        upload,
     },
     data() {
         return {
@@ -34,13 +40,23 @@ export default {
             // jwtToken: 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJjcmVkZW50aWFsVHlwZSI6ImJhc2ljIiwiZXhwIjoxNjE4MDg0MTUyLCJpYXQiOjE2MTgwODM4NTIsImlzQWRtaW4iOmZhbHNlLCJpc3MiOiJDYW5ldGEgSURQIFNlcnZlciIsInN1YiI6ImZzLnJvZmlxQGdtYWlsLmNvbSIsInVzZXJVaWQiOiI4ZmJiMTNmYi1hZDc4LTQ3NDctOGJlYy1mN2QyYThkNzAyNWQifQ.G_X9Y2aIu4JYZysYW0l79HDyIBFs1GmohUvJqTRhSwh42Ngt1aD1IwKJ6AohNKxueSz-o0RFz6WS9Ub1khEMYNQjdWMSSD4nfzuOlb7pBVAuyoIvucjnPD6wYti-UwLZF2Puap87fNC9kdQKJ8xcuwerVFo9GuxIJ3-8tE0oClcsOdnqlaqlVSHHrWdQVe6XiOFPzmNSL0vZWuUvfetIMXgbT-MMdRNEXLbcmtHmy4JCwwzMow7es7TZWvVReeOIIxgDZTI_Y2x4qKM1Bkbzs-9UxNJy5O8w4Yuq8UN_slNe1AzaW0aLG4FMktWGVWu0SMJM-4oJ9cwEFYoNw8ac8A',
             fileName: 'Choose a file',
             fileCid: '',
-            fileUploadStatus: 'Browse'
+            fileUploadStatus: 'Browse',
+
+            uploadModalShow: false
         }
     },
     created() {
-        this.refreshToken()
+        // this.refreshToken()
     },
     methods: {
+        showUploadModal() {
+            console.log('Show Modal')
+            this.uploadModalShow = !this.uploadModalShow
+        },
+        closeModal() {
+            this.uploadModalShow = false
+            console.log('Close modal')
+        },
         refreshToken() {
             var email = localStorage.getItem('email')
             var userUid = localStorage.getItem('user_uid')

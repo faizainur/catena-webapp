@@ -12,10 +12,10 @@
 </template>
 
 <script>
-export default {
+
+export default
+   {
     name: 'Signup Completed',
-    component: {
-    },
     methods: {
         continueLogin() {
             window.location = '/login'

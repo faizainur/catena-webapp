@@ -1,10 +1,10 @@
 <template>
     <div class="container main-box" v-if="isDashboard">
-      <!-- <h1 class="is-size-2">App View</h1> -->
       <div class="columns my-0 mx-0" style="height: 100vh">
         <div class="column is-2 px-5">
+          <!-- <h1 class="is-size-4 has-text-weight-bold">Catena</h1> -->
           <h1 class="is-size-4 has-text-weight-bold">Catena</h1>
-          <aside class="menu mt-5 px-0">
+          <aside class="menu mt-5 px-0 sidebar pr-2">
             <p class="menu-label">General</p>
             <ul class="menu-list">
               <!-- <li><a class="is-active">Dashboard</a></li> -->
@@ -151,6 +151,19 @@ html, body {
 .footer-box {
   position: fixed;
   bottom: 0;
+  width: 100%;;
+}
+
+.sidebar {
+  border-right: 1px;
+  border-right-width: 1px;
+  border-right-color: #e0e0e0;
+  border-left: 0px;
+  border-top: 0px;
+  border-bottom: 0px;
+  border-style: solid;
+  height: 90%;
+  padding-bottom: 7em;
 }
 
 </style>
