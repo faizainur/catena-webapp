@@ -67,7 +67,7 @@ export default {
         },
         closeModal() {
             this.fileSelected = false
-            this.$emit('onClose', this.fileObj)
+            this.$emit('onClose', this.returnObject)
         },
         refreshToken() {
             return new Promise((resolve, reject) => {
@@ -96,7 +96,9 @@ export default {
                 .catch((error) => this.$router.push('/login'))
                 
             var authToken = 'Bearer ' + this.jwtToken
-
+            console.log(this.jwtToken)
+            console.log(authToken
+            )
             const formData = new FormData()
             formData.append('file', this.file)
 
@@ -110,13 +112,13 @@ export default {
                     this.fileUploadStatus = 'File Uploaded'
                     this.fileCid = response.data.cid
 
-                    this.fileObj = {
+                    this.returnObject = {
                         name: this.file.name,
                         cid: response.data.cid
                     }
 
                     console.log(response)
-                    console.log(this.fileObj)
+                    console.log(this.returnObject)
                 })
                 .catch((err) => {
                     this.progressValue = 0
