@@ -112,8 +112,8 @@ export default {
                             this.fileCid = response.data.cid
 
                             this.returnObject = {
-                                name: this.file.name,
-                                cid: response.data.cid
+                                name: response.data.name,
+                                cid: response.data.hash
                             }
 
                             console.log(response)
