@@ -94,7 +94,7 @@ export default {
         uploadFile() {
             this.refreshToken()
                 .then((token) => {
-                    
+                //    test 
                     var authToken = 'Bearer ' + token
                     console.log(token)
                     console.log(authToken)
