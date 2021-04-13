@@ -83,6 +83,7 @@ export default {
 
                 axios.post('https://api.catena.id/v1/auth/refresh_token', formData, {headers: {'content-type': 'application/x-www-form-urlencoded'}, withCredentials: true})
                 .then((response) => {
+                    console.log(response)
                     resolve(response.data.jwt_token)
                 })
                 .catch((err) => {
@@ -92,40 +93,41 @@ export default {
         },
         uploadFile() {
             this.refreshToken()
-                .then((token) => this.jwtToken = token)
+                .then((token) => {
+                    
+                    var authToken = 'Bearer ' + token
+                    console.log(token)
+                    console.log(authToken)
+                    const formData = new FormData()
+                    formData.append('file', this.file)
+
+                    console.log(formData)
+                    console.log('Upload file')
+
+                    this.progressValue = null
+                    axios.post('https://api.catena.id/v1/ipfs/user/upload', formData, {headers: {'content-type': 'application/form-data', 'Authorization': authToken}, withCredentials: true})
+                        .then((response) => {
+                            this.progressValue = 0
+                            this.fileUploadStatus = 'File Uploaded'
+                            this.fileCid = response.data.cid
+
+                            this.returnObject = {
+                                name: this.file.name,
+                                cid: response.data.cid
+                            }
+
+                            console.log(response)
+                            console.log(this.returnObject)
+                        })
+                        .catch((err) => {
+                            this.progressValue = 0
+                            this.fileUploadStatus = 'Failed'
+                            this.fileName = 'Try to choose a different file'
+                            console.log(err.response)
+                        })
+                })
                 .catch((error) => this.$router.push('/login'))
                 
-            var authToken = 'Bearer ' + this.jwtToken
-            console.log(this.jwtToken)
-            console.log(authToken
-            )
-            const formData = new FormData()
-            formData.append('file', this.file)
-
-            console.log(formData)
-            console.log('Upload file')
-
-            this.progressValue = null
-            axios.post('https://api.catena.id/v1/ipfs/user/upload', formData, {headers: {'content-type': 'application/form-data', 'Authorization': authToken}, withCredentials: true})
-                .then((response) => {
-                    this.progressValue = 0
-                    this.fileUploadStatus = 'File Uploaded'
-                    this.fileCid = response.data.cid
-
-                    this.returnObject = {
-                        name: this.file.name,
-                        cid: response.data.cid
-                    }
-
-                    console.log(response)
-                    console.log(this.returnObject)
-                })
-                .catch((err) => {
-                    this.progressValue = 0
-                    this.fileUploadStatus = 'Failed'
-                    this.fileName = 'Try to choose a different file'
-                    console.log(err.response)
-                })
             // console.log(file)
         },
     },
