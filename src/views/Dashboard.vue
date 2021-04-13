@@ -17,8 +17,8 @@
     </span>
         </label>
     </div> -->
-    <button class="button" @click="showUploadModal">Show modal</button>
-    <upload v-show="uploadModalShow" :active="uploadModalShow" @onClose="closeModal"/>
+    <!-- <button class="button" @click="showUploadModal">Show modal</button>
+    <upload v-show="uploadModalShow" :active="uploadModalShow" @onClose="closeModal"/> -->
    <!-- <HelloWorld msg="Hi"/> -->
 </template>
 
