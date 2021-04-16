@@ -119,8 +119,9 @@ export default {
         }).catch((error) => {
           this.isLoadingLogoutProcess = false
           console.log(error)
-          // this.$router.push('/login')
-          window.location = '/login'
+              localStorage.clear()
+          this.$router.push('/login')
+          // window.location = '/login'
 
         })
     }
