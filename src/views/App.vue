@@ -64,6 +64,7 @@
 import axios from 'axios'
 import FormData from 'form-data'
 import jwt_decode from "jwt-decode";
+import {refreshToken} from '../utils/auth'
 
 export default {
   name: 'App',
@@ -100,28 +101,24 @@ export default {
         })
     }, 
     logout() {
-        var authToken = 'Bearer ' + this.jwtToken
-        var decoded = jwt_decode(this.jwtToken)
-        var date = new Date()
-        var timeNowUnix = Math.floor(date.getTime() / 1000)
+        refreshToken().then((token) => {
+          var authToken = 'Bearer ' + token
 
-        if (timeNowUnix > decoded.exp) {
-            this.refreshToken()
-            return
-        }
+          this.isLoadingLogoutProcess = true
 
-        this.isLoadingLogoutProcess = true
-
-        axios.post('https://api.catena.id/v1/auth/logout', null, {headers: {'content-type': 'application/x-www-form-urlencoded', 'Authorization': authToken}, withCredentials: true})
-        .then((response) => {
-            this.isLoadingLogoutProcess = false
-            console.log("Logged out")
-            localStorage.clear()
-            this.$router.push('/login')
-        })
-        .catch((err) => {
-            console.log(err.response)
-            this.isLoadingLogoutProcess = false
+          axios.post('https://api.catena.id/v1/auth/logout', null, {headers: {'content-type': 'application/x-www-form-urlencoded', 'Authorization': authToken}, withCredentials: true})
+          .then((response) => {
+              this.isLoadingLogoutProcess = false
+              console.log("Logged out")
+              localStorage.clear()
+              this.$router.push('/login')
+          })
+          .catch((err) => {
+              console.log(err.response)
+              this.isLoadingLogoutProcess = false
+          })
+        }).catch((error) => {
+          console.log(error)
         })
     }
   },
