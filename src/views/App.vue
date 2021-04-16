@@ -101,10 +101,9 @@ export default {
         })
     }, 
     logout() {
+          this.isLoadingLogoutProcess = true
         refreshToken().then((token) => {
           var authToken = 'Bearer ' + token
-
-          this.isLoadingLogoutProcess = true
 
           axios.post('https://api.catena.id/v1/auth/logout', null, {headers: {'content-type': 'application/x-www-form-urlencoded', 'Authorization': authToken}, withCredentials: true})
           .then((response) => {
@@ -119,6 +118,8 @@ export default {
           })
         }).catch((error) => {
           console.log(error)
+          this.$router.push('/login')
+
         })
     }
   },
