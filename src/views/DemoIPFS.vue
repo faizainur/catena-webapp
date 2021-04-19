@@ -67,7 +67,8 @@ export default {
                     headers: {
                         'Authorization': authToken
                     },
-                    withCredentials: true
+                    withCredentials: true,
+                    responseType: 'blob'
                 }).then((response) => {
                     console.log("Data Downloaded")
                     console.log(response)
