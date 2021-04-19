@@ -19,6 +19,9 @@
 
 <script>
 import UploadModal from '../components/UploadFileModal'
+import { refreshToken } from '../utils/auth'
+import axios from 'axios'
+
 export default {
     components: {
         UploadModal
@@ -43,6 +46,38 @@ export default {
                 this.CIDInput = e.cid
             }
             this.isUploadModalActive = false
+        },
+        downloadFile() {
+            var authToken = 'Bearer ' + token
+            console.log(token)
+            console.log(authToken)
+            const formData = new FormData()
+            formData.append('file', this.file)
+
+            console.log(formData)
+            console.log('Upload file')
+
+            console.log('Downloading data')
+            refreshToken().then((data) => {
+                axios.get('https://api.catena.id/v1/ipfs/user/fetch', {
+                    params: {
+                        cid: this.CIDInput
+                    },
+                    headers: {
+                        'Authorization': authToken
+                    },
+                    withCredentials: true
+                }).then((response) => {
+                    console.log("Data Downloaded")
+                    console.log(response)
+
+                }).catch((err) => {
+                    console.log("Failed downloading data")
+                    console.log(err)
+                })
+            }).catch((err) => {
+                console.log(err)
+            })
         }
     }
 }

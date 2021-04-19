@@ -126,7 +126,12 @@ export default {
                             console.log(err.response)
                         })
                 })
-                .catch((error) => this.$router.push('/login'))
+                .catch((error) => {
+                    this.isLoadingLogoutProcess = false
+                    console.log(error)
+                    localStorage.clear()
+                    this.$router.push('/login')
+                })
                 
             // console.log(file)
         },
