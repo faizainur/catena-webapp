@@ -21,6 +21,7 @@
 import UploadModal from '../components/UploadFileModal'
 import { refreshToken } from '../utils/auth'
 import axios from 'axios'
+import fileDownload from 'js-file-download'
 
 export default {
     components: {
@@ -70,6 +71,7 @@ export default {
                 }).then((response) => {
                     console.log("Data Downloaded")
                     console.log(response)
+                    fileDownload(response.data, this.fileNameInput)
 
                 }).catch((err) => {
                     console.log("Failed downloading data")
