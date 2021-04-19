@@ -11,7 +11,7 @@
                 <UploadModal :active="isUploadModalActive"  @onClose="onCloseModal"/>
             </div>
             <div class="column has-text-right">
-                <button class="button is-link">Download File</button>
+                <button class="button is-link" @click="downloadFile">Download File</button>
             </div>
         </div>
     </div>
@@ -48,17 +48,17 @@ export default {
             this.isUploadModalActive = false
         },
         downloadFile() {
-            var authToken = 'Bearer ' + token
-            console.log(token)
-            console.log(authToken)
-            const formData = new FormData()
-            formData.append('file', this.file)
-
-            console.log(formData)
-            console.log('Upload file')
-
-            console.log('Downloading data')
             refreshToken().then((data) => {
+                var authToken = 'Bearer ' + token
+                console.log(token)
+                console.log(authToken)
+                const formData = new FormData()
+                formData.append('file', this.file)
+
+                console.log(formData)
+                console.log('Upload file')
+
+                console.log('Downloading data')
                 axios.get('https://api.catena.id/v1/ipfs/user/fetch', {
                     params: {
                         cid: this.CIDInput
