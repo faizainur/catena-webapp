@@ -48,7 +48,7 @@ export default {
             this.isUploadModalActive = false
         },
         downloadFile() {
-            refreshToken().then((data) => {
+            refreshToken().then((token) => {
                 var authToken = 'Bearer ' + token
                 console.log(token)
                 console.log(authToken)
