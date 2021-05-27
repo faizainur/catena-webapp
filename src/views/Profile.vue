@@ -137,25 +137,39 @@ export default {
                 // var userUid = '8fbb13fb-ad78-4747-8bec-f7d2a8d7025d' 
                 var userUid = localStorage.getItem('user_uid')
                     
-                var data = {
-                    user_uid: userUid,
-                    first_name: this.firstName,
-                    last_name: this.lastName,
-                    address_line_1: this.addressLine1,
-                    address_line_2: this.addressLine2,
-                    city: this.city,
-                    province: this.province,
-                    postal_code: this.postalCode,
-                    ttl: this.birthPlace + ', ' + this.birthDay,
-                    nik: this.nik,
-                    id_card: this.ktpCIDInput,
-                    business_license: this.blCIDInput,
-                }
+                // var data = {
+                //     user_uid: userUid,
+                //     first_name: this.firstName,
+                //     last_name: this.lastName,
+                //     address_line_1: this.addressLine1,
+                //     address_line_2: this.addressLine2,
+                //     city: this.city,
+                //     province: this.province,
+                //     postal_code: this.postalCode,
+                //     ttl: this.birthPlace + ', ' + this.birthDay,
+                //     nik: this.nik,
+                //     id_card: this.ktpCIDInput,
+                //     business_license: this.blCIDInput,
+                // }
 
-                console.log(data)
+                const params = new URLSearchParams()
+                params.append('user_uid', userUid)
+                params.append('first_name', this.firstName)
+                params.append('last_name', this.lastName)
+                params.append('address_line_1', this.addressLine1)
+                params.append('address_line_2', this.addressLine2)
+                params.append('city', this.city)
+                params.append('province', this.province)
+                params.append('postal_code', this.postalCode)
+                params.append('ttl', this.birthPlace + ', ' + this.birthDay)
+                params.append('nik', this.nik)
+                params.append('id_card', this.ktpCIDInput)
+                params.append('business_license', this.blCIDInput)
+
+                console.log(params)
 
                console.log("Saving profile")
-               axios.post('https://api.catena.id/v1/fabric/users/register', data, 
+               axios.post('https://api.catena.id/v1/fabric/users/register', params, 
                {
                     headers: {
                         'Authorization': authToken,
