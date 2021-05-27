@@ -3,7 +3,7 @@
         <div class="modal-background"></div>
         <div class="modal-content">
          <div class="box">
-             <h1 class="is-size-5 has-text-weight-bold">Upload File</h1>
+             <h1 class="is-size-5 has-text-weight-bold has-text-left">Upload File</h1>
              <div class="upload-container my-3 p-2" :class="{'center-item': !fileSelected}">
                  <div class="file" v-show="!fileSelected">
                     <label class="file-label">
