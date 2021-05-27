@@ -152,6 +152,8 @@ export default {
                     business_license: this.blCIDInput,
                 }
 
+                console.log(data)
+
                console.log("Saving profile")
                axios.post('https://api.catena.id/v1/fabric/users/register', data, 
                {
