@@ -129,28 +129,9 @@ export default {
             console.log(this.birthDay)
         },
         saveProfile() {
-            // var token = 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJjcmVkZW50aWFsVHlwZSI6ImJhc2ljIiwiZXhwIjoxNjIyMDk3MzI1LCJpYXQiOjE2MjIwOTY3MjUsImlzQWRtaW4iOmZhbHNlLCJpc3MiOiJDYW5ldGEgSURQIFNlcnZlciIsInN1YiI6ImZzLnJvZmlxQGdtYWlsLmNvbSIsInVzZXJVaWQiOiI4ZmJiMTNmYi1hZDc4LTQ3NDctOGJlYy1mN2QyYThkNzAyNWQifQ.P9HcHuPFsaJI4sqM4Jy2zu9H6sBhT7SaGvkSsEhgbLrdFJUftURf5ST9J6LCaK53hrE3KVUxDmu9fZ-ktJpSjveyDbv_WvBtOhg54ybjymUk0GTbfMs4mHXHmZV3E2IAberBUO6ESk-SydRica2vmdUrDFfJqkyzBcoNcGZo6W-NNsUvCGz3qIpFFP04wt3FiZOvqKIuO-ZyWtfxrpLAgoiOG5xF-g50piWKZrNXHaRUXmoG7ZgX4qNkUD7CjH3RHvF54z5NTlCD45QYoAd6h3gpcU2O2VBgO-bgIlWPgnO3vRQSwquT03WsV4aXnARsTA2mtRF2gQrdRqy7CHa6Mg'
-            
             refreshToken().then((token) => {
                 var authToken = 'Bearer ' + token
-
-                // var userUid = '8fbb13fb-ad78-4747-8bec-f7d2a8d7025d' 
                 var userUid = localStorage.getItem('user_uid')
-                    
-                // var data = {
-                //     user_uid: userUid,
-                //     first_name: this.firstName,
-                //     last_name: this.lastName,
-                //     address_line_1: this.addressLine1,
-                //     address_line_2: this.addressLine2,
-                //     city: this.city,
-                //     province: this.province,
-                //     postal_code: this.postalCode,
-                //     ttl: this.birthPlace + ', ' + this.birthDay,
-                //     nik: this.nik,
-                //     id_card: this.ktpCIDInput,
-                //     business_license: this.blCIDInput,
-                // }
 
                 const params = new URLSearchParams()
                 params.append('user_uid', userUid)
@@ -165,8 +146,6 @@ export default {
                 params.append('nik', this.nik)
                 params.append('id_card', this.ktpCIDInput)
                 params.append('business_license', this.blCIDInput)
-
-                console.log(params)
 
                console.log("Saving profile")
                axios.post('https://api.catena.id/v1/fabric/users/register', params, 
