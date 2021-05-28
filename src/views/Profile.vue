@@ -269,11 +269,11 @@ export default {
           params.append("nik", this.nik);
           params.append(
             "id_card",
-            this.ktpFileNameInput + "." + this.ktpCIDInput
+            this.ktpFileNameInput + ".%." + this.ktpCIDInput
           );
           params.append(
             "business_license",
-            this.blFileNameInput + "." + this.blCIDInput
+            this.blFileNameInput + ".%." + this.blCIDInput
           );
 
           console.log("Saving profile");
@@ -307,6 +307,8 @@ export default {
         });
     },
     downloadFile(cid, fileName) {
+      console.log(cid);
+      console.log(fileName);
       refreshToken()
         .then((token) => {
           var authToken = "Bearer " + token;
