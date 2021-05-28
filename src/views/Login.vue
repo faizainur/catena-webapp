@@ -123,20 +123,20 @@ export default {
           })
           .then((response) => {
             console.log("Checking if profile exist");
+            var userUid = response.data.data.user_uid;
+            var email = response.data.data.email;
+            var credentialType = response.data.data.credential_type;
             axios
               .get("https://api.catena.id/v1/fabric/users/exist", {
                 params: {
-                  user_uid: response.data.data.user_uid,
+                  user_uid: userUid,
                 },
               })
               .then((response) => {
                 this.loginLoadingState = false;
-                localStorage.setItem("user_uid", response.data.data.user_uid);
-                localStorage.setItem("email", response.data.data.email);
-                localStorage.setItem(
-                  "credential_type",
-                  response.data.data.credential_type
-                );
+                localStorage.setItem("user_uid", userUid);
+                localStorage.setItem("email", email);
+                localStorage.setItem("credential_type", credentialType);
                 localStorage.setItem("is_profile_exist", response.data);
                 this.$router.push("/");
               })
