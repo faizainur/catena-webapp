@@ -181,13 +181,13 @@ export default {
             this.nik = response.data.nik;
 
             var idCard = response.data.idcard;
-            var splittedIdCard = idCard.split(".");
+            var splittedIdCard = idCard.split(".%.");
 
             this.ktpCIDInput = splittedIdCard[1];
             this.ktpFileNameInput = splittedIdCard[0];
 
             var businessLicense = response.data.business_license;
-            var splittedBl = businessLicense.split(".");
+            var splittedBl = businessLicense.split(".%.");
 
             this.blCIDInput = splittedBl[1];
             this.blFileNameInput = splittedBl[0];
@@ -287,6 +287,7 @@ export default {
             .then((response) => {
               this.savingLoadingState = false;
               this.isProfileSaved = true;
+              this.isError = false;
               localStorage.setItem("is_profile_exist", "true");
               console.log("Profile saved");
               console.log(response.data);
