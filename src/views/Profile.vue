@@ -1,6 +1,12 @@
 <template>
   <h1 class="is-size-4 has-text-weight-semibold mb-2">Account Profile</h1>
   <div class="block mt-5">
+    <div
+      class="notification is-info is-light p-3"
+      v-show="fetchingProfileLoadingState"
+    >
+      <p>Loading your profile...</p>
+    </div>
     <div class="notification is-success is-light p-3" v-show="isProfileSaved">
       <p>Your profile is saved</p>
     </div>
@@ -50,7 +56,13 @@
     <label for="" class="block mb-2">KTP</label>
     <div class="columns mb-0">
       <div class="column is-four-fifths">
-        <input type="text" class="input" v-model="ktpFileNameInput" readonly />
+        <input
+          type="text"
+          class="input"
+          v-model="ktpFileNameInput"
+          @click="ktpFileOnClick"
+          readonly
+        />
       </div>
       <div class="column has-text-right">
         <button class="button" @click="showModalKTP">Browse File</button>
@@ -63,7 +75,14 @@
     <label for="" class="block mb-2">Business License</label>
     <div class="columns mb-0">
       <div class="column is-four-fifths">
-        <input type="text" class="input" v-model="blFileNameInput" readonly />
+        <input
+          type="text"
+          class="input"
+          v-model="blFileNameInput"
+          @click="blFileOnClick"
+          readonly
+        />
+        <!-- <label for="" class="has-text-link">Select file</label> -->
       </div>
       <div class="column has-text-right">
         <button class="button" @click="showModalBL">Browse File</button>
@@ -105,6 +124,7 @@ export default {
       savingLoadingState: false,
       isProfileSaved: false,
       isError: false,
+      fetchingProfileLoadingState: false,
 
       errorMessage: null,
 
@@ -130,6 +150,7 @@ export default {
   },
   mounted() {
     if (localStorage.getItem("is_profile_exist") === "true") {
+      this.fetchingProfileLoadingState = true;
       refreshToken().then((token) => {
         var authToken = "Bearer " + token;
         var userUid = localStorage.getItem("user_uid");
@@ -170,9 +191,19 @@ export default {
 
             this.blCIDInput = splittedBl[1];
             this.blFileNameInput = splittedBl[0];
+
+            this.fetchingProfileLoadingState = false;
           })
-          .catch((error) => console.log(error));
+          .catch((error) => {
+            this.fetchingProfileLoadingState = false;
+            this.isError = true;
+            this.errorMessage = error;
+            console.log(error);
+          });
       });
+    } else {
+      this.isError = true;
+      this.errorMessage = "Please complete your profile";
     }
   },
   unmounted() {
@@ -205,6 +236,18 @@ export default {
     },
     birthDayOnChange(e) {
       console.log(this.birthDay);
+    },
+    ktpFileOnClick() {
+      if (this.ktpCIDInput !== "" && this.ktpFileNameInput !== "") {
+        console.log("ktp text clicked");
+        this.downloadFile(this.ktpCIDInput, this.ktpFileNameInput);
+      }
+    },
+    blFileOnClick() {
+      if (this.blCIDInput !== "" && this.blFileNameInput !== "") {
+        console.log("text clicked");
+        this.downloadFile(this.blCIDInput, this.blFileNameInput);
+      }
     },
     saveProfile() {
       this.savingLoadingState = true;
@@ -261,6 +304,43 @@ export default {
           this.errorMessage = error.name + " : " + error.message;
           this.savingLoadingState = false;
           console.log(error);
+        });
+    },
+    downloadFile(cid, fileName) {
+      refreshToken()
+        .then((token) => {
+          var authToken = "Bearer " + token;
+          console.log(token);
+          console.log(authToken);
+
+          console.log("Downloading data");
+          axios
+            .get("https://api.catena.id/v1/ipfs/user/fetch", {
+              params: {
+                cid: cid,
+              },
+              headers: {
+                Authorization: authToken,
+              },
+              withCredentials: true,
+              responseType: "blob",
+            })
+            .then((response) => {
+              console.log("Data Downloaded");
+              console.log(response);
+              fileDownload(response.data, fileName);
+            })
+            .catch((err) => {
+              this.isError = true;
+              this.errorMessage = "Failed downloading " + fileName;
+              console.log(err);
+              console.log(this.errorMessage);
+            });
+        })
+        .catch((err) => {
+          this.isError = true;
+          this.errorMessage = err;
+          console.log(err);
         });
     },
   },
