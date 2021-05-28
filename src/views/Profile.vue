@@ -276,9 +276,16 @@ export default {
             this.blFileNameInput + ".%." + this.blCIDInput
           );
 
+          var url;
+          if (localStorage.getItem("is_profile_exist") === "true") {
+            url = "https://api.catena.id/v1/fabric/users/update";
+          } else {
+            url = "https://api.catena.id/v1/fabric/users/register";
+          }
+
           console.log("Saving profile");
           axios
-            .post("https://api.catena.id/v1/fabric/users/register", params, {
+            .post(url, params, {
               headers: {
                 Authorization: authToken,
                 "Content-Type": "application/x-www-form-urlencoded",
