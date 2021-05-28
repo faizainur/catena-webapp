@@ -10,11 +10,11 @@
     <div class="columns mb-0">
       <div class="column">
         <label for="" class="block mb-2">First Name</label>
-        <input type="text" class="input " v-model="firstName" />
+        <input type="text" class="input" v-model="firstName" />
       </div>
       <div class="column">
         <label for="" class="block mb-2">Last Name</label>
-        <input type="text" class="input " v-model="lastName" />
+        <input type="text" class="input" v-model="lastName" />
       </div>
     </div>
     <label for="" class="block mb-2">NIK</label>
@@ -48,7 +48,7 @@
       </div>
     </div>
     <label for="" class="block mb-2">KTP</label>
-    <div class="columns mb-0 ">
+    <div class="columns mb-0">
       <div class="column is-four-fifths">
         <input type="text" class="input" v-model="ktpFileNameInput" readonly />
       </div>
@@ -61,7 +61,7 @@
       </div>
     </div>
     <label for="" class="block mb-2">Business License</label>
-    <div class="columns mb-0 ">
+    <div class="columns mb-0">
       <div class="column is-four-fifths">
         <input type="text" class="input" v-model="blFileNameInput" readonly />
       </div>
@@ -128,6 +128,56 @@ export default {
       blSelectedInput: "",
     };
   },
+  mounted() {
+    if (localStorage.getItem("is_profile_exist") === "true") {
+      refreshToken().then((token) => {
+        var authToken = "Bearer " + token;
+        var userUid = localStorage.getItem("user_uid");
+        axios
+          .get("https://api.catena.id/v1/fabric/users/get", {
+            params: {
+              user_uid: userUid,
+            },
+            headers: {
+              Authorization: authToken,
+            },
+          })
+          .then((response) => {
+            this.firstName = response.data.first_name;
+            this.lastName = response.data.last_name;
+            this.addressLine1 = response.data.address_line_1;
+            this.addressLine2 = response.data.address_line_2;
+            this.city = response.data.city;
+            this.province = response.data.province;
+            this.postalCode = response.data.postal_code;
+
+            var ttl = response.data.ttl;
+            var splittedTtl = ttl.split(", ");
+
+            this.birthPlace = splittedTtl[0];
+            this.birthDay = splittedTtl[1];
+
+            this.nik = response.data.nik;
+
+            var idCard = response.data.idcard;
+            var splittedIdCard = idCard.split(".");
+
+            this.ktpCIDInput = splittedIdCard[1];
+            this.ktpFileNameInput = splittedIdCard[0];
+
+            var businessLicense = response.data.business_license;
+            var splittedBl = businessLicense.split(".");
+
+            this.blCIDInput = splittedBl[1];
+            this.blFileNameInput = splittedBl[0];
+          })
+          .catch((error) => console.log(error));
+      });
+    }
+  },
+  unmounted() {
+    console.log("unmounted");
+  },
   methods: {
     showModalKTP() {
       this.isUploadModalActiveKTP = true;
@@ -174,8 +224,14 @@ export default {
           params.append("postal_code", this.postalCode);
           params.append("ttl", this.birthPlace + ", " + this.birthDay);
           params.append("nik", this.nik);
-          params.append("id_card", this.ktpCIDInput);
-          params.append("business_license", this.blCIDInput);
+          params.append(
+            "id_card",
+            this.ktpFileNameInput + "." + this.ktpCIDInput
+          );
+          params.append(
+            "business_license",
+            this.blFileNameInput + "." + this.blCIDInput
+          );
 
           console.log("Saving profile");
           axios
@@ -188,6 +244,7 @@ export default {
             .then((response) => {
               this.savingLoadingState = false;
               this.isProfileSaved = true;
+              localStorage.setItem("is_profile_exist", "true");
               console.log("Profile saved");
               console.log(response.data);
             })

@@ -23,14 +23,12 @@
                       class="input"
                       type="email"
                       name="email"
-                     v-model="emailAddress"
-                     @input="emailInputEventHandler"
-                     :class="{'is-danger': emptyEmail}"
+                      v-model="emailAddress"
+                      @input="emailInputEventHandler"
+                      :class="{ 'is-danger': emptyEmail }"
                       @keyup.enter="loginClick"
                     />
-                    <p
-                      class="help is-danger" v-show="emptyEmail"
-                    >
+                    <p class="help is-danger" v-show="emptyEmail">
                       This field is required
                     </p>
                   </div>
@@ -44,12 +42,10 @@
                       name="password"
                       v-model="password"
                       @input="passwordInputEventHandler"
-                     :class="{'is-danger': emptyPassword}"
+                      :class="{ 'is-danger': emptyPassword }"
                       @keyup.enter="loginClick"
                     />
-                    <p
-                      class="help is-danger" v-show="emptyPassword"
-                    >
+                    <p class="help is-danger" v-show="emptyPassword">
                       This field is required
                     </p>
                   </div>
@@ -67,15 +63,17 @@
                   >
                 </p>
               </form>
-                <div class="field mt-5 pt-3 mb-2">
-                  <div class="control">
-                    <button
-                      class="button is-link is-fullwidth"
-                      :class="{'is-loading': loginLoadingState}"
-                      @click="loginClick"
-                    >Login</button>
-                  </div>
+              <div class="field mt-5 pt-3 mb-2">
+                <div class="control">
+                  <button
+                    class="button is-link is-fullwidth"
+                    :class="{ 'is-loading': loginLoadingState }"
+                    @click="loginClick"
+                  >
+                    Login
+                  </button>
                 </div>
+              </div>
             </div>
             <div class="notification is-white pt-0 px-5" style="border: 2px">
               <a
@@ -93,10 +91,10 @@
 </template>
 
 <script>
-import axios from 'axios'
+import axios from "axios";
 // import FormData from 'form-data'
 export default {
-  name: 'Home',
+  name: "Home",
   data() {
     return {
       emptyPassword: false,
@@ -104,57 +102,76 @@ export default {
       checkEmailPassword: false,
       loginLoadingState: false,
 
-      emailAddress: '',
-      password: '',
-    }
+      emailAddress: "",
+      password: "",
+    };
   },
   methods: {
-    loginClick () {
-      if (this.emailAddress === '' || this.password === '') {
-        this.checkEmailPassword = true
+    loginClick() {
+      if (this.emailAddress === "" || this.password === "") {
+        this.checkEmailPassword = true;
       } else {
         const formData = new FormData();
-        formData.append('email', this.emailAddress)
-        formData.append('password', this.password)
+        formData.append("email", this.emailAddress);
+        formData.append("password", this.password);
 
-        this.loginLoadingState = true
-        axios.post('https://api.catena.id/v1/auth/login', formData, {headers: {'content-type': 'application/x-www-form-urlencoded'}, withCredentials: true})
-        .then((response) => {
-          this.loginLoadingState = false
-          localStorage.setItem('user_uid', response.data.data.user_uid)
-          localStorage.setItem('email', response.data.data.email)
-          localStorage.setItem('credential_type', response.data.data.credential_type)
-
-          this.$router.push('/')
-        })
-        .catch((err) => {
-          this.loginLoadingState = false
-          this.checkEmailPassword = true
-          console.log(err)
-        })
-         
+        this.loginLoadingState = true;
+        axios
+          .post("https://api.catena.id/v1/auth/login", formData, {
+            headers: { "content-type": "application/x-www-form-urlencoded" },
+            withCredentials: true,
+          })
+          .then((response) => {
+            console.log("Checking if profile exist");
+            axios
+              .get("https://api.catena.id/v1/fabric/users/exist", {
+                params: {
+                  user_uid: response.data.data.user_uid,
+                },
+              })
+              .then((response) => {
+                this.loginLoadingState = false;
+                localStorage.setItem("user_uid", response.data.data.user_uid);
+                localStorage.setItem("email", response.data.data.email);
+                localStorage.setItem(
+                  "credential_type",
+                  response.data.data.credential_type
+                );
+                localStorage.setItem("is_profile_exist", response.data);
+                this.$router.push("/");
+              })
+              .catch((error) => {
+                console.log(error);
+              });
+          })
+          .catch((err) => {
+            this.loginLoadingState = false;
+            this.checkEmailPassword = true;
+            console.log(err);
+          });
       }
     },
     passwordInputEventHandler() {
-      if (this.password === '') {
-        this.emptyPassword = true
+      if (this.password === "") {
+        this.emptyPassword = true;
       } else {
-        this.emptyPassword = false
+        this.emptyPassword = false;
       }
-    }, 
+    },
     emailInputEventHandler() {
-      if (this.emailAddress === '') {
-        this.emptyEmail = true
+      if (this.emailAddress === "") {
+        this.emptyEmail = true;
       } else {
-        this.emptyEmail = false
+        this.emptyEmail = false;
       }
-    }
+    },
   },
-}
+};
 </script>
 
 <style>
-html, body {
+html,
+body {
   height: 100vh;
 }
 </style>
