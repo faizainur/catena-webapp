@@ -19,10 +19,10 @@ const routes = [
       var email = localStorage.getItem('email')
       var userUid = localStorage.getItem('user_uid')
 
-      // if (email === null || userUid === null) {
-      //     return '/login'
-      // }
-      // return true
+      if (email === null || userUid === null) {
+          return '/login'
+      }
+      return true
     }
   },
   {
@@ -36,11 +36,11 @@ const routes = [
       var email = localStorage.getItem('email')
       var userUid = localStorage.getItem('user_uid')
 
-      // if (email === null || userUid === null) {
-      //   return '/login'
-      // }
+      if (email === null || userUid === null) {
+        return '/login'
+      }
 
-      // return true
+      return true
     }
   },
   {
