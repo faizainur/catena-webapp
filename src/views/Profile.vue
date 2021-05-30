@@ -255,9 +255,11 @@ export default {
         .then((token) => {
           var authToken = "Bearer " + token;
           var userUid = localStorage.getItem("user_uid");
+          var email = localStorage.getItem("email");
 
           const params = new URLSearchParams();
           params.append("user_uid", userUid);
+          params.append("email", email);
           params.append("first_name", this.firstName);
           params.append("last_name", this.lastName);
           params.append("address_line_1", this.addressLine1);
