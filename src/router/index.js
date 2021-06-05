@@ -5,6 +5,8 @@ import Dashboard from "../views/Dashboard";
 import SignupCompleted from "../views/SignupCompleted";
 import Profile from "../views/Profile";
 import DemoIPFS from "../views/DemoIPFS";
+import CreditApplied from "../views/CreditApplied";
+import AuthorizedAccess from "../views/AuthorizedAccess";
 import axios from "axios";
 
 const routes = [
@@ -19,10 +21,10 @@ const routes = [
       var email = localStorage.getItem("email");
       var userUid = localStorage.getItem("user_uid");
 
-      if (email === null || userUid === null) {
-        return "/login";
-      }
-      return true;
+      // if (email === null || userUid === null) {
+      //   return "/login";
+      // }
+      // return true;
     },
   },
   {
@@ -36,10 +38,10 @@ const routes = [
       var email = localStorage.getItem("email");
       var userUid = localStorage.getItem("user_uid");
 
-      if (email === null || userUid === null) {
-        return "/login";
-      }
-      return true;
+      // if (email === null || userUid === null) {
+      //   return "/login";
+      // }
+      // return true;
     },
   },
   {
@@ -53,10 +55,10 @@ const routes = [
       var email = localStorage.getItem("email");
       var userUid = localStorage.getItem("user_uid");
 
-      if (email !== null && userUid !== null) {
-        return "/";
-      }
-      return true;
+      // if (email !== null && userUid !== null) {
+      //   return "/";
+      // }
+      // return true;
     },
   },
   {
@@ -79,13 +81,29 @@ const routes = [
     },
   },
   {
-    path: "/demo-ipfs",
-    name: "DemoIPFS",
-    component: DemoIPFS,
+    path: "/applied",
+    name: "CreditApplied",
+    component: CreditApplied,
     meta: {
-      title: "Demo IPFS",
+      title: "Credit Applied",
     },
   },
+  {
+    path: "/authorized",
+    name: "AuthorizedAccess",
+    component: AuthorizedAccess,
+    meta: {
+      title: "Authorized Access",
+    },
+  },
+  // {
+  //   path: "/demo-ipfs",
+  //   name: "DemoIPFS",
+  //   component: DemoIPFS,
+  //   meta: {
+  //     title: "Demo IPFS",
+  //   },
+  // },
 ];
 
 const router = createRouter({

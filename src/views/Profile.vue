@@ -53,6 +53,8 @@
         <input type="text" class="input" v-model="postalCode" />
       </div>
     </div>
+    <label for="" class="block mb-2">Phone Number</label>
+    <input type="text" class="input mb-4" v-model="phoneNumber" />
     <label for="" class="block mb-2">KTP</label>
     <div class="columns mb-0">
       <div class="column is-four-fifths">
@@ -138,6 +140,7 @@ export default {
       city: "",
       province: "",
       postalCode: "",
+      phoneNumber: "",
 
       ktpFileNameInput: "",
       ktpCIDInput: "",
@@ -171,6 +174,7 @@ export default {
             this.city = response.data.city;
             this.province = response.data.province;
             this.postalCode = response.data.postal_code;
+            this.phoneNumber = response.data.phone_number;
 
             var ttl = response.data.ttl;
             var splittedTtl = ttl.split(", ");
@@ -264,6 +268,7 @@ export default {
           params.append("last_name", this.lastName);
           params.append("address_line_1", this.addressLine1);
           params.append("address_line_2", this.addressLine2);
+          params.append("phone_number", this.phoneNumber);
           params.append("city", this.city);
           params.append("province", this.province);
           params.append("postal_code", this.postalCode);
