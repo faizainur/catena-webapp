@@ -33,7 +33,7 @@
             </li> -->
             <!-- <li><a href="">Authorized Access</a></li> -->
           </ul>
-          <p class="menu-label">Credit</p>
+          <!-- <p class="menu-label">Credit</p>
           <ul class="menu-list">
             <li>
               <router-link
@@ -56,7 +56,7 @@
                 >Rejected</router-link
               >
             </li>
-          </ul>
+          </ul> -->
         </aside>
         <div class="footer-box my-4">
           <!-- <strong>Copyright 2021</strong><br> -->
