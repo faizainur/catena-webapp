@@ -5,7 +5,9 @@ import Dashboard from "../views/Dashboard";
 import SignupCompleted from "../views/SignupCompleted";
 import Profile from "../views/Profile";
 import DemoIPFS from "../views/DemoIPFS";
-import CreditApplied from "../views/CreditApplied";
+import CreditApproved from "../views/CreditApproved";
+import CreditRejected from "../views/CreditRejected";
+import CreditPending from "../views/CreditPending";
 import AuthorizedAccess from "../views/AuthorizedAccess";
 import axios from "axios";
 
@@ -81,21 +83,64 @@ const routes = [
     },
   },
   {
-    path: "/applied",
-    name: "CreditApplied",
-    component: CreditApplied,
+    path: "/approved",
+    name: "CreditApproved",
+    component: CreditApproved,
     meta: {
-      title: "Credit Applied",
+      title: "Credit Approved",
+    },
+    beforeEnter: (to, from) => {
+      var email = localStorage.getItem("email");
+      var userUid = localStorage.getItem("user_uid");
+
+      if (email === null || userUid === null) {
+        return "/login";
+      }
+      return true;
     },
   },
   {
-    path: "/authorized",
-    name: "AuthorizedAccess",
-    component: AuthorizedAccess,
+    path: "/pending",
+    name: "CreditPending",
+    component: CreditPending,
     meta: {
-      title: "Authorized Access",
+      title: "Credit Pending",
+    },
+    beforeEnter: (to, from) => {
+      var email = localStorage.getItem("email");
+      var userUid = localStorage.getItem("user_uid");
+
+      if (email === null || userUid === null) {
+        return "/login";
+      }
+      return true;
     },
   },
+  {
+    path: "/rejected",
+    name: "CreditRejected",
+    component: CreditRejected,
+    meta: {
+      title: "Credit Rejected",
+    },
+    beforeEnter: (to, from) => {
+      var email = localStorage.getItem("email");
+      var userUid = localStorage.getItem("user_uid");
+
+      if (email === null || userUid === null) {
+        return "/login";
+      }
+      return true;
+    },
+  },
+  // {
+  //   path: "/authorized",
+  //   name: "AuthorizedAccess",
+  //   component: AuthorizedAccess,
+  //   meta: {
+  //     title: "Authorized Access",
+  //   },
+  // },
   // {
   //   path: "/demo-ipfs",
   //   name: "DemoIPFS",

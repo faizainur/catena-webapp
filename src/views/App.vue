@@ -33,7 +33,7 @@
             </li> -->
             <!-- <li><a href="">Authorized Access</a></li> -->
           </ul>
-          <!-- <p class="menu-label">Credit</p>
+          <p class="menu-label">Credit</p>
           <ul class="menu-list">
             <li>
               <router-link
@@ -44,9 +44,9 @@
             </li>
             <li>
               <router-link
-                to="/applied"
-                :class="{ 'is-active': activeMenu === 'applied' }"
-                >Applied</router-link
+                to="/approved"
+                :class="{ 'is-active': activeMenu === 'approved' }"
+                >Approved</router-link
               >
             </li>
             <li>
@@ -56,7 +56,7 @@
                 >Rejected</router-link
               >
             </li>
-          </ul> -->
+          </ul>
         </aside>
         <div class="footer-box my-4">
           <!-- <strong>Copyright 2021</strong><br> -->
