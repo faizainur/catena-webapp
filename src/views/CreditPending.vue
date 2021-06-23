@@ -55,7 +55,8 @@ export default {
     this.list = [];
     var index = 0;
     console.log("mounted");
-    var userUid = "84ae14f9-a95c-432a-a188-f12f3b4d671c";
+    // var userUid = "84ae14f9-a95c-432a-a188-f12f3b4d671c";
+    var userUid = localStorage.getItem("user_uid");
     try {
       var response = await axios.get(
         "https://api.catena.id/v1/fabric/credit/search",
